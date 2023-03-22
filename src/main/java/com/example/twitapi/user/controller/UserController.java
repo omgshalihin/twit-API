@@ -25,4 +25,23 @@ public class UserController {
         User savedUser = userService.saveUser(newUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     }
+
+//    http://localhost:8080/api/users/user30/follow-user?username=jack
+    @PostMapping("/{userName}/follow-user")
+    public ResponseEntity<User> followUser(
+            @PathVariable String userName,
+            @RequestParam(name = "username") String userNameToFollow) {
+        User user = userService.followUser(userName, userNameToFollow);
+        return ResponseEntity.status(HttpStatus.OK).body(user);
+    }
+
+    @PostMapping("/{userName}/unfollow-user")
+    public ResponseEntity<User> unfollowUser(
+            @PathVariable String userName,
+            @RequestParam(name = "username") String userNameToUnfollow) {
+        User user = userService.unfollowUser(userName, userNameToUnfollow);
+        return ResponseEntity.status(HttpStatus.OK).body(user);
+    }
+
+
 }
