@@ -47,15 +47,9 @@ public class TweetController {
         return ResponseEntity.status(HttpStatus.CREATED).body(tweetService.composeTweet(tweet.getTweetContent(), user));
     }
 
-//    http://localhost:8080/api/tweets/reply?username=cindy&to=jack&tweetId=641b0c6bc2b3da29e4d7fa7e
-//    @PostMapping("/reply")
-//    ResponseEntity<Tweet> replyTweet(
-//            @RequestBody Reply reply,
-//            @RequestParam(name = "username") String userName,
-//            @RequestParam(name = "to") String userNameReplyTo,
-//            @RequestParam(name = "tweetId") String tweetId) {
-//        User user = userRepository.findUserByUserName(userName);
-//        User userReplyTo = userRepository.findUserByUserName(userNameReplyTo);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(tweetService.replyTweet(reply.getReplyContent(), user, userReplyTo, tweetId));
-//    }
+    @DeleteMapping("/{tweetId}")
+    ResponseEntity<Void> deleteTweet(@PathVariable String tweetId) {
+        tweetService.deleteTweet(tweetId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }

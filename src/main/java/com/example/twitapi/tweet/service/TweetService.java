@@ -33,18 +33,7 @@ public class TweetService {
         return tweet;
     }
 
-//    public Tweet replyTweet(String replyContent, User user, User userReplyTo, String tweetId) {
-//
-//        Tweet tweet = tweetRepository.getTweetByUserAndTweetId(userReplyTo, tweetId);
-//
-//        Reply reply = new Reply();
-////        reply.setReplyId(UUID.randomUUID().toString());
-//        reply.setReplyContent(replyContent);
-//        reply.setUser(user);
-//
-//        tweet.getTweetReplies().add(reply);
-//        tweetRepository.save(tweet);
-//
-//        return tweet;
-//    }
+    public void deleteTweet(String tweetId) {
+        tweetRepository.deleteById(tweetId);
+    }
 }

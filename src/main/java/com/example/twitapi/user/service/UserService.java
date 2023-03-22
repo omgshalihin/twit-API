@@ -3,6 +3,7 @@ package com.example.twitapi.user.service;
 import com.example.twitapi.user.model.User;
 import com.example.twitapi.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -51,5 +52,9 @@ public class UserService {
 
     public User getUser(String userName) {
         return userRepository.findUserByUserName(userName);
+    }
+
+    public void deleteUser(String userName) {
+        userRepository.deleteUserByUserName(userName);
     }
 }
