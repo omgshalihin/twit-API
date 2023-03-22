@@ -29,7 +29,7 @@ public class ReplyController {
     }
 
 //    http://localhost:8080/api/replies/reply?username=cindy&to=jack&tweetId=641b0c6bc2b3da29e4d7fa7e
-    @PostMapping("/reply")
+    @PostMapping("/tweet")
     ResponseEntity<Tweet> replyTweet(
             @RequestBody Reply reply,
             @RequestParam(name = "username") String userName,

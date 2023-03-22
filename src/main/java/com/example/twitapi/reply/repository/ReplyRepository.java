@@ -11,4 +11,5 @@ import java.util.List;
 public interface ReplyRepository extends MongoRepository<Reply, String> {
 
     List<Reply> findRepliesByUser(User user);
+    Reply findReplyByUserUserId(String userId);
 }

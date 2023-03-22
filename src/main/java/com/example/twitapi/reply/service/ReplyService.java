@@ -28,16 +28,16 @@ public class ReplyService {
 
     public Tweet replyTweet(String replyContent, User user, User userReplyTo, String tweetId) {
 
-        Tweet tweet = tweetRepository.getTweetByUserAndTweetId(userReplyTo, tweetId);
-
         Reply reply = new Reply();
         reply.setReplyContent(replyContent);
         reply.setUser(user);
         reply.setUserReplyTo(userReplyTo);
-
-        tweet.getTweetReplies().add(reply);
-        tweetRepository.save(tweet);
         replyRepository.save(reply);
+
+        Tweet tweet = tweetRepository.getTweetByUserAndTweetId(userReplyTo, tweetId);
+        tweet.getTweetReplies().add(reply);
+
+        tweetRepository.save(tweet);
 
         return tweet;
     }
