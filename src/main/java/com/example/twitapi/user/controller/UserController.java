@@ -20,6 +20,11 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getAllUsers());
     }
 
+    @GetMapping("/{userName}")
+    ResponseEntity<User> getUser(@PathVariable String userName) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getUser(userName));
+    }
+
     @GetMapping("/{userName}/following")
     ResponseEntity<List<String>> getUserFollowing(@PathVariable String userName) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getUserFollowing(userName));

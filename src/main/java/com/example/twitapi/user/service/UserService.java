@@ -48,4 +48,8 @@ public class UserService {
     public List<String> getUserFollowers(String userName) {
         return userRepository.findUserByUserName(userName).getUserFollower();
     }
+
+    public User getUser(String userName) {
+        return userRepository.findUserByUserName(userName);
+    }
 }

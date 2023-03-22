@@ -21,6 +21,4 @@ public class User {
     private String userEmail;
     private List<String> userFollowing = new ArrayList<>();
     private List<String> userFollower = new ArrayList<>();
-
-//    private List<Tweet> userTweet = new ArrayList<>();
 }
