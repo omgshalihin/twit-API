@@ -10,7 +10,9 @@ import java.util.List;
 @Repository
 public interface TweetRepository extends MongoRepository<Tweet, String> {
 
-//    Tweet findTweetByUser(User user);
     List<Tweet> findTweetsByUser(User user);
     Tweet getTweetByUserAndTweetId(User user, String tweetId);
+
+    Tweet getTweetByTweetId(String tweetId);
+
 }

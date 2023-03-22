@@ -8,7 +8,9 @@ import com.example.twitapi.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ReplyService {
@@ -40,5 +42,17 @@ public class ReplyService {
         tweetRepository.save(tweet);
 
         return tweet;
+    }
+
+    public void deleteTweetReply(String tweetId, String replyId) {
+
+        Reply tweetReplyToDelete = replyRepository.findReplyByReplyId(replyId);
+        Tweet tweet = tweetRepository.getTweetByTweetId(tweetId);
+
+        tweet.getTweetReplies().remove(tweetReplyToDelete);
+
+        tweetRepository.save(tweet);
+
+        replyRepository.deleteById(replyId);
     }
 }

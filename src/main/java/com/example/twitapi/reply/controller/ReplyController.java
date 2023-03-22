@@ -3,6 +3,7 @@ package com.example.twitapi.reply.controller;
 import com.example.twitapi.reply.model.Reply;
 import com.example.twitapi.reply.service.ReplyService;
 import com.example.twitapi.tweet.model.Tweet;
+import com.example.twitapi.tweet.repository.TweetRepository;
 import com.example.twitapi.user.model.User;
 import com.example.twitapi.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ public class ReplyController {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private TweetRepository tweetRepository;
 
     @GetMapping("/{userName}")
     ResponseEntity<List<Reply>> getUserReplies(@PathVariable String userName) {
@@ -38,6 +41,14 @@ public class ReplyController {
         User user = userRepository.findUserByUserName(userName);
         User userReplyTo = userRepository.findUserByUserName(userNameReplyTo);
         return ResponseEntity.status(HttpStatus.CREATED).body(replyService.replyTweet(reply.getReplyContent(), user, userReplyTo, tweetId));
+    }
+
+    @DeleteMapping("/delete")
+    ResponseEntity<Void> deleteTweetReply(
+            @RequestParam(name = "tweetId") String tweetId,
+            @RequestParam(name = "replyId") String replyId) {
+        replyService.deleteTweetReply(tweetId, replyId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }

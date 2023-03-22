@@ -12,4 +12,6 @@ public interface ReplyRepository extends MongoRepository<Reply, String> {
 
     List<Reply> findRepliesByUser(User user);
     Reply findReplyByUserUserId(String userId);
+
+    Reply findReplyByReplyId(String replyId);
 }
