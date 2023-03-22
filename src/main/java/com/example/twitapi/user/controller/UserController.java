@@ -20,6 +20,16 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getAllUsers());
     }
 
+    @GetMapping("/{userName}/following")
+    ResponseEntity<List<String>> getUserFollowing(@PathVariable String userName) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getUserFollowing(userName));
+    }
+
+    @GetMapping("/{userName}/followers")
+    ResponseEntity<List<String>> getUserFollowers(@PathVariable String userName) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getUserFollowers(userName));
+    }
+
     @PostMapping
     ResponseEntity<User> saveUser(@RequestBody User newUser) {
         User savedUser = userService.saveUser(newUser);

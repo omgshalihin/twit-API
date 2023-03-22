@@ -24,8 +24,8 @@ public class UserService {
     public User followUser(String userName, String userNameToFollow) {
         User user = userRepository.findUserByUserName(userName);
         User userToFollow = userRepository.findUserByUserName(userNameToFollow);
-        user.getUserFollowing().add(userToFollow.getUserId());
-        userToFollow.getUserFollower().add(user.getUserId());
+        user.getUserFollowing().add(userToFollow.getUserName());
+        userToFollow.getUserFollower().add(user.getUserName());
         userRepository.save(user);
         userRepository.save(userToFollow);
         return user;
@@ -34,10 +34,18 @@ public class UserService {
     public User unfollowUser(String userName, String userNameToUnfollow) {
         User user = userRepository.findUserByUserName(userName);
         User userToUnfollow = userRepository.findUserByUserName(userNameToUnfollow);
-        user.getUserFollowing().remove(userToUnfollow.getUserId());
-        userToUnfollow.getUserFollower().remove(user.getUserId());
+        user.getUserFollowing().remove(userToUnfollow.getUserName());
+        userToUnfollow.getUserFollower().remove(user.getUserName());
         userRepository.save(user);
         userRepository.save(userToUnfollow);
         return user;
+    }
+
+    public List<String> getUserFollowing(String userName) {
+        return userRepository.findUserByUserName(userName).getUserFollowing();
+    }
+
+    public List<String> getUserFollowers(String userName) {
+        return userRepository.findUserByUserName(userName).getUserFollower();
     }
 }
