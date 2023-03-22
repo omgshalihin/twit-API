@@ -1,6 +1,5 @@
 package com.example.twitapi.user.model;
 
-import com.example.twitapi.tweet.model.Tweet;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

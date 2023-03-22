@@ -1,6 +1,5 @@
 package com.example.twitapi.tweet.controller;
 
-import com.example.twitapi.reply.model.Reply;
 import com.example.twitapi.tweet.model.Tweet;
 import com.example.twitapi.tweet.service.TweetService;
 import com.example.twitapi.user.model.User;
