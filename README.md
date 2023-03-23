@@ -9,7 +9,7 @@ The following domains are hosted on [Railway.app](https://railway.app/)
 - https://twit-api-production.up.railway.app/api/replies
 
 ### To Get Started (two methods)
-#### Method 1: use the **Host Domains** provided and **API Guides** to communicate with the service. 
+#### Method 1: use the **`Host Domains`** provided and **`API Guides`** to communicate with the service. 
 
 For example,
 -  use https://twit-api-production.up.railway.app/api/users instead of http://localhost:8080/api/users
