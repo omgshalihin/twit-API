@@ -90,7 +90,10 @@ DB_NAME=<mongoDB_name>
       "userFollower": []
   }
   ```
-  
+### Delete user `DELETE`
+  ```
+  http://localhost:8080/api/users/<userName>
+  ```
 ### Get all users `GET`
   ```
   http://localhost:8080/api/users
