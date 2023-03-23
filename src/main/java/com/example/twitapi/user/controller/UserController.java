@@ -30,13 +30,16 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getUserFollowing(userName));
     }
 
-    @GetMapping("/{userName}/followers")
+    @GetMapping(value = "/{userName}/followers")
     ResponseEntity<List<String>> getUserFollowers(@PathVariable String userName) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getUserFollowers(userName));
     }
 
     @PostMapping
     ResponseEntity<User> saveUser(@RequestBody User newUser) {
+        if (userService.getUser(newUser.getUserName()) != null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
         User savedUser = userService.saveUser(newUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     }
@@ -46,6 +49,9 @@ public class UserController {
     public ResponseEntity<User> followUser(
             @PathVariable String userName,
             @RequestParam(name = "username") String userNameToFollow) {
+        if (userService.getUser(userNameToFollow).getUserFollower().contains(userName)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
         User user = userService.followUser(userName, userNameToFollow);
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
@@ -54,6 +60,9 @@ public class UserController {
     public ResponseEntity<User> unfollowUser(
             @PathVariable String userName,
             @RequestParam(name = "username") String userNameToUnfollow) {
+        if (!userService.getUser(userNameToUnfollow).getUserFollower().contains(userName)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
         User user = userService.unfollowUser(userName, userNameToUnfollow);
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }

@@ -21,4 +21,8 @@ public class Tweet {
     private String tweetContent;
     private List<Reply> tweetReplies = new ArrayList<>();
     private User user;
+
+    public Tweet(String tweetContent) {
+        this.tweetContent = tweetContent;
+    }
 }

@@ -38,6 +38,9 @@ public class ReplyController {
             @RequestParam(name = "username") String userName,
             @RequestParam(name = "to") String userNameReplyTo,
             @RequestParam(name = "tweetId") String tweetId) {
+        if (!userRepository.findUserByUserName(userNameReplyTo).getUserFollower().contains(userName)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
         User user = userRepository.findUserByUserName(userName);
         User userReplyTo = userRepository.findUserByUserName(userNameReplyTo);
         return ResponseEntity.status(HttpStatus.CREATED).body(replyService.replyTweet(reply.getReplyContent(), user, userReplyTo, tweetId));

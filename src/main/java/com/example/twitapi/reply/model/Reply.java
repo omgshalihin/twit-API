@@ -18,4 +18,7 @@ public class Reply {
     private User user;
     private User userReplyTo;
 
+    public Reply(String replyContent) {
+        this.replyContent = replyContent;
+    }
 }

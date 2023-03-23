@@ -20,4 +20,9 @@ public class User {
     private String userEmail;
     private List<String> userFollowing = new ArrayList<>();
     private List<String> userFollower = new ArrayList<>();
+
+    public User(String userName, String userEmail) {
+        this.userName = userName;
+        this.userEmail = userEmail;
+    }
 }
