@@ -1,8 +1,8 @@
 # TWIT-API
-## Background
+### Background
 An API/service that is built with Java to mimic the behavior of Twitter. This API is built ontop of [`Spring`](https://spring.io/) framework and utilises [`MongoDB Atlas`](https://www.mongodb.com/atlas/database) as a cloud database provider.
 
-## To Get Started
+### To Get Started
 clone this git repository into your local folder
 ```
 git clone 
