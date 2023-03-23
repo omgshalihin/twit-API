@@ -2,7 +2,7 @@
 ### Background
 An API/service that is built with Java to mimic the behavior of Twitter. This API is built ontop of [Spring](https://spring.io/) framework and utilises [MongoDB Atlas](https://www.mongodb.com/atlas/database) as a cloud database provider.
 
-### Hosting
+### Hosting/Deployment
 The following domains are hosted on [Railway.app](https://railway.app/)
 - https://twit-api-production.up.railway.app/api/users
 - https://twit-api-production.up.railway.app/api/tweets
