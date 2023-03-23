@@ -1,6 +1,6 @@
 # TWIT-API
 ### Background
-An API/service that is built with Java to mimic the behavior of Twitter. This API is built ontop of [`Spring`](https://spring.io/) framework and utilises [`MongoDB Atlas`](https://www.mongodb.com/atlas/database) as a cloud database provider.
+An API/service that is built with Java to mimic the behavior of Twitter. This API is built ontop of [Spring](https://spring.io/) framework and utilises [MongoDB Atlas](https://www.mongodb.com/atlas/database) as a cloud database provider.
 
 ### Hosting
 The following domains are hosted on [Railway.app](https://railway.app/)
@@ -9,7 +9,7 @@ The following domains are hosted on [Railway.app](https://railway.app/)
 - https://twit-api-production.up.railway.app/api/replies
 
 ### To Get Started (two methods)
-#### Method 1: use the **`Host Domains`** provided and **`API Guides`** to communicate with the service. 
+#### Method 1: use the [Host Domains](https://github.com/omgshalihin/twit-API#hosting) provided and [API Guides](https://github.com/omgshalihin/twit-API#users-api-guide) to communicate with the service. 
 
 For example,
 -  use https://twit-api-production.up.railway.app/api/users instead of http://localhost:8080/api/users
@@ -31,7 +31,7 @@ DB_ENDPOINT=<mongoDB_endpoint>
 DB_NAME=<mongoDB_name>
 ```
 - run `TwitApiApplication` to host it locally at http://localhost:8080/api/users, http://localhost:8080/api/tweets, http://localhost:8080/api/replies
-- use the respective API guides (`Users API Guide`, `Tweets API Guide`, `Replies API Guide`) to communicate with the REST endpoints on a client (e.g. postman)
+- use the respective `API Guides` ([Users API Guide](https://github.com/omgshalihin/twit-API#users-api-guide), [Tweets API Guide](https://github.com/omgshalihin/twit-API#tweets-api-guide), [Replies API Guide](https://github.com/omgshalihin/twit-API#replies-api-guide)) to communicate with the REST endpoints on a client (e.g. postman)
 
 ## Users API Guide
 
