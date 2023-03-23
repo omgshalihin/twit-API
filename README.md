@@ -1,10 +1,6 @@
-# twit-API
+## Users API
 
-The focus is on building a small backend API.
-
-# Users API
-
-## Create new user `POST`
+### Create new user `POST`
   ```
   http://localhost:8080/api/users
   ```
@@ -26,7 +22,7 @@ The focus is on building a small backend API.
   }
   ```
 
-## Follow a user `POST`
+### Follow a user `POST`
   ```
   http://localhost:8080/api/users/<userName>/follow-user?username=<userNameToFollow>
   ```
@@ -47,7 +43,7 @@ The focus is on building a small backend API.
   }
   ```
 
-## Unfollow a user `POST`
+### Unfollow a user `POST`
   ```
   http://localhost:8080/api/users/<userName>/unfollow-user?username=<userNameToUnfollow>
   ```
@@ -66,27 +62,27 @@ The focus is on building a small backend API.
   }
   ```
   
-## Get all users `GET`
+### Get all users `GET`
   ```
   http://localhost:8080/api/users
   ```
-## Get user `GET`
+### Get user `GET`
   ```
   http://localhost:8080/api/users/<userName>
   ```
-## Get user's following `GET`
+### Get user's following `GET`
   ```
   http://localhost:8080/api/users/<userName>/following
   ```
-## Get user's followers `GET`
+### Get user's followers `GET`
   ```
   http://localhost:8080/api/users/<userName>/followers
   ```
 
 
-# Tweets API
+## Tweets API
 
-## Compose tweet `POST`
+### Compose tweet `POST`
   ```
   http://localhost:8080/api/tweets/compose?username=<userName>
   ```
@@ -112,29 +108,29 @@ The focus is on building a small backend API.
   }
   ```
   
-## Delete tweet `DELETE`
+### Delete tweet `DELETE`
   ```
   http://localhost:8080/api/tweets/<tweetId>
   ```
 
-## Get all tweets `GET`
+### Get all tweets `GET`
   ```
   http://localhost:8080/api/tweets
   ```
 
-## Get user's tweets `GET`
+### Get user's tweets `GET`
   ```
   http://localhost:8080/api/tweets/<userName>
   ```
   
-## Get user's specific tweet `GET`
+### Get user's specific tweet `GET`
   ```
   http://localhost:8080/api/tweets/<userName>/status/<tweetId>
   ```
 
-# Replies API
+## Replies API
 
-## Reply tweet `POST`
+### Reply tweet `POST`
   ```
   http://localhost:8080/api/replies/tweet?username=<userName>&to=<userNameToReply>&tweetId=<tweetId>
   ```
@@ -185,12 +181,12 @@ The focus is on building a small backend API.
   }
   ```
 
-## Delete reply `DELETE`
+### Delete reply `DELETE`
   ```
   http://localhost:8080/api/replies/delete?tweetId=<tweetId>&replyId=<replyId>
   ```
 
-## Get user replies `GET`
+### Get user replies `GET`
   ```
   http://localhost:8080/api/replies/<userName>
   ```
