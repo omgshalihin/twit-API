@@ -44,7 +44,6 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     }
 
-//    http://localhost:8080/api/users/user30/follow-user?username=jack
     @PostMapping("/{userName}/follow-user")
     public ResponseEntity<User> followUser(
             @PathVariable String userName,

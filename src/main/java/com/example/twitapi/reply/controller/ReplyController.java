@@ -19,7 +19,6 @@ public class ReplyController {
 
     @Autowired
     private ReplyService replyService;
-
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -31,7 +30,6 @@ public class ReplyController {
         return ResponseEntity.status(HttpStatus.OK).body(replyService.getUserReplies(user));
     }
 
-//    http://localhost:8080/api/replies/reply?username=cindy&to=jack&tweetId=641b0c6bc2b3da29e4d7fa7e
     @PostMapping("/tweet")
     ResponseEntity<Tweet> replyTweet(
             @RequestBody Reply reply,

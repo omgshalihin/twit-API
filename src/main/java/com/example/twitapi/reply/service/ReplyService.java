@@ -19,12 +19,8 @@ public class ReplyService {
     private TweetRepository tweetRepository;
 
     public List<Reply> getUserReplies(User user) {
-        System.out.println(user);
-        var a = replyRepository.findRepliesByUser(user);
-        System.out.println(a);
-        return a;
+        return replyRepository.findRepliesByUser(user);
     }
-
 
     public Tweet replyTweet(String replyContent, User user, User userReplyTo, String tweetId) {
 
