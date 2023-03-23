@@ -297,7 +297,7 @@ class TwitApiApplicationTests {
 
     @Test
     @Order(11)
-    void jackShouldBeAbleToReplyToCindyFirstTweet() throws JsonProcessingException {
+    void jackShouldBeAbleToReplyToCindyFirstTweet() {
         String userName = "jack";
         String userNameReplyTo = "cindy";
         String tweetContent = "I am Cindy. This is my 1st tweet";
@@ -322,7 +322,7 @@ class TwitApiApplicationTests {
 
     @Test
     @Order(11)
-    void cindyShouldNotBeAbleToReplyToJackFirstTweetSinceCindyIsNotFollowingJack() throws JsonProcessingException {
+    void cindyShouldNotBeAbleToReplyToJackFirstTweetSinceCindyIsNotFollowingJack() {
         String userName = "cindy";
         String userNameReplyTo = "jack";
         String tweetContent = "I am Jack. This is my 1st tweet";
