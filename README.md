@@ -1,4 +1,27 @@
-## Users API
+# TWIT-API
+## Background
+An API/service that is built with Java to mimic the behavior of Twitter. This API is built ontop of [`Spring`](https://spring.io/) framework and utilises [`MongoDB Atlas`](https://www.mongodb.com/atlas/database) as a cloud database provider.
+
+## To Get Started
+clone this git repository into your local folder
+```
+git clone 
+```
+go into the folder and open with your favorite IDE (intelliJ)
+```
+cd <folder> && idea pom.xml
+```
+inside `main/resources` & `test/resources` folders, create a file called `env.properties` and then update the MongoDB Atlas `connection string`
+```
+DB_USER=<mongoDB_user>
+DB_PWD=<mongoDB_password>
+DB_ENDPOINT=<mongoDB_endpoint>
+DB_NAME=<mongoDB_name>
+```
+- run `TwitApiApplication` to host it locally at http://localhost:8080/api/users, http://localhost:8080/api/tweets, http://localhost:8080/api/replies
+- use the respective API guides (`Users API Guide`, `Tweets API Guide`, `Replies API Guide`) to communicate with the REST endpoints on a client (e.g. postman)
+
+## Users API Guide
 
 ### Create new user `POST`
   ```
@@ -80,7 +103,7 @@
   ```
 
 
-## Tweets API
+## Tweets API Guide
 
 ### Compose tweet `POST`
   ```
@@ -128,7 +151,7 @@
   http://localhost:8080/api/tweets/<userName>/status/<tweetId>
   ```
 
-## Replies API
+## Replies API Guide
 
 ### Reply tweet `POST`
   ```
