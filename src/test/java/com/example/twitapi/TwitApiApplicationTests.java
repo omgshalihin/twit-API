@@ -14,23 +14,24 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.Arrays;
 import java.util.Objects;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.MethodOrderer.*;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.web.util.UriComponentsBuilder;
+import static org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(OrderAnnotation.class)
@@ -175,6 +176,7 @@ class TwitApiApplicationTests {
         ResponseEntity<User> exchange = restTemplate.exchange(uri, HttpMethod.POST, HttpEntity.EMPTY, User.class);
         assertThat(exchange.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
     }
+
     @Test
     @Order(7)
     void userShouldNotBeAbleToUnfollowIfNotFollowingAtFirst() {
@@ -299,12 +301,10 @@ class TwitApiApplicationTests {
         String userName = "jack";
         String userNameReplyTo = "cindy";
         String tweetContent = "I am Cindy. This is my 1st tweet";
+
         User userCindy = userRepository.findUserByUserName("cindy");
-        System.out.println(userCindy);
-        var a = tweetRepository.getTweetByUserAndTweetContent(userCindy, tweetContent);
-        System.out.println(a);
-        String tweetId = a.getTweetId();
-        System.out.println(tweetId);
+        Tweet userSpecificTweet = tweetRepository.getTweetByUserAndTweetContent(userCindy, tweetContent);
+        String tweetId = userSpecificTweet.getTweetId();
 
         String url = "http://localhost:%s/api/replies/tweet".formatted(port);
         URI uri = UriComponentsBuilder
@@ -314,7 +314,7 @@ class TwitApiApplicationTests {
                 .queryParam("tweetId", tweetId)
                 .build()
                 .toUri();
-        System.out.println(uri);
+
         Reply replyContent = new Reply("I'm Jack. This is my reply to Cindy's first tweet!");
         ResponseEntity<Reply> exchange = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(replyContent), Reply.class);
         assertThat(exchange.getStatusCode()).isEqualTo(HttpStatus.CREATED);
@@ -326,9 +326,10 @@ class TwitApiApplicationTests {
         String userName = "cindy";
         String userNameReplyTo = "jack";
         String tweetContent = "I am Jack. This is my 1st tweet";
+
         User userJack = userRepository.findUserByUserName("jack");
-        var a = tweetRepository.getTweetByUserAndTweetContent(userJack, tweetContent);
-        String tweetId = a.getTweetId();
+        Tweet userSpecificTweet = tweetRepository.getTweetByUserAndTweetContent(userJack, tweetContent);
+        String tweetId = userSpecificTweet.getTweetId();
 
         String url = "http://localhost:%s/api/replies/tweet".formatted(port);
         URI uri = UriComponentsBuilder
@@ -343,7 +344,4 @@ class TwitApiApplicationTests {
         ResponseEntity<Reply> exchange = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(replyContent), Reply.class);
         assertThat(exchange.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
-
-
-
 }
