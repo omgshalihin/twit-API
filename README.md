@@ -8,16 +8,22 @@ The following domains are hosted on [Railway.app](https://railway.app/)
 - https://twit-api-production.up.railway.app/api/tweets
 - https://twit-api-production.up.railway.app/api/replies
 
-### To Get Started
-clone this git repository into your local folder
+### To Get Started (two methods)
+#### Method 1: use the **Host Domains** provided and **API Guides** to communicate with the service. 
+
+For example,
+-  use https://twit-api-production.up.railway.app/api/users instead of http://localhost:8080/api/users
+
+#### Method 2: clone and run service locally
+- clone this git repository into your local folder
 ```
 git clone 
 ```
-go into the folder and open with your favorite IDE (intelliJ)
+- go into the folder and open with your favorite IDE (intelliJ)
 ```
 cd <folder> && idea pom.xml
 ```
-inside `main/resources` & `test/resources` folders, create a file called `env.properties` and then update the MongoDB Atlas `connection string`
+- inside `main/resources` & `test/resources` folders, create a file called `env.properties` and then update the MongoDB Atlas `connection string`
 ```
 DB_USER=<mongoDB_user>
 DB_PWD=<mongoDB_password>
