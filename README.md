@@ -54,7 +54,7 @@ DB_NAME=<mongoDB_name>
 
 ## Users API Guide
 
-### Create new user `POST`
+### create a new user `POST`
   ```
   http://localhost:8080/api/users
   ```
@@ -76,7 +76,7 @@ DB_NAME=<mongoDB_name>
   }
   ```
 
-### Follow a user `POST`
+### follow a user `POST`
   ```
   http://localhost:8080/api/users/<userName>/follow-user?username=<userNameToFollow>
   ```
@@ -97,7 +97,7 @@ DB_NAME=<mongoDB_name>
   }
   ```
 
-### Unfollow a user `POST`
+### unfollow a user `POST`
   ```
   http://localhost:8080/api/users/<userName>/unfollow-user?username=<userNameToUnfollow>
   ```
@@ -115,23 +115,23 @@ DB_NAME=<mongoDB_name>
       "userFollower": []
   }
   ```
-### Delete user `DELETE`
+### delete a user `DELETE`
   ```
   http://localhost:8080/api/users/<userName>
   ```
-### Get all users `GET`
+### retrieve all users `GET`
   ```
   http://localhost:8080/api/users
   ```
-### Get user `GET`
+### retrieve a user `GET`
   ```
   http://localhost:8080/api/users/<userName>
   ```
-### Get user's following `GET`
+### retrieve a list of user's following `GET`
   ```
   http://localhost:8080/api/users/<userName>/following
   ```
-### Get user's followers `GET`
+### retrieve a list of user's followers `GET`
   ```
   http://localhost:8080/api/users/<userName>/followers
   ```
@@ -139,7 +139,7 @@ DB_NAME=<mongoDB_name>
 
 ## Tweets API Guide
 
-### Compose tweet `POST`
+### compose a tweet `POST`
   ```
   http://localhost:8080/api/tweets/compose?username=<userName>
   ```
@@ -165,29 +165,29 @@ DB_NAME=<mongoDB_name>
   }
   ```
   
-### Delete tweet `DELETE`
+### delete a tweet `DELETE`
   ```
   http://localhost:8080/api/tweets/<tweetId>
   ```
 
-### Get all tweets `GET`
+### retrieve all tweets `GET`
   ```
   http://localhost:8080/api/tweets
   ```
 
-### Get user's tweets `GET`
+### retrieve a list of user's tweets `GET`
   ```
   http://localhost:8080/api/tweets/<userName>
   ```
   
-### Get user's specific tweet `GET`
+### retrieve a user's specific tweet `GET`
   ```
   http://localhost:8080/api/tweets/<userName>/status/<tweetId>
   ```
 
 ## Replies API Guide
 
-### Reply tweet `POST`
+### reply to a tweet `POST`
   ```
   http://localhost:8080/api/replies/tweet?username=<userName>&to=<userNameToReply>&tweetId=<tweetId>
   ```
@@ -238,12 +238,12 @@ DB_NAME=<mongoDB_name>
   }
   ```
 
-### Delete reply `DELETE`
+### delete a reply `DELETE`
   ```
   http://localhost:8080/api/replies/delete?tweetId=<tweetId>&replyId=<replyId>
   ```
 
-### Get user replies `GET`
+### retrieve a list of user's replies `GET`
   ```
   http://localhost:8080/api/replies/<userName>
   ```
