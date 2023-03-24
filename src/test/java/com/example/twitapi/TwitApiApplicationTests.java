@@ -107,7 +107,7 @@ class TwitApiApplicationTests {
 
     @Test
     @Order(2)
-    void PeterShouldFollowCindy() {
+    void peterShouldFollowCindy() {
         String user = "peter";
         String userToFollow = "cindy";
         String url = "http://localhost:%s/api/users/%s/follow-user".formatted(port, user);
@@ -123,7 +123,7 @@ class TwitApiApplicationTests {
 
     @Test
     @Order(2)
-    void JackShouldFollowCindy() {
+    void jackShouldFollowCindy() {
         String user = "jack";
         String userToFollow = "cindy";
         String url = "http://localhost:%s/api/users/%s/follow-user".formatted(port, user);
