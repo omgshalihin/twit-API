@@ -361,7 +361,7 @@ class TwitApiApplicationTests {
         String userNameReplyTo = "jack";
         String tweetContent = "I am Jack. This is my 1st tweet";
 
-        User userJack = userRepository.findUserByUserName("jack");
+        User userJack = userRepository.findUserByUserName(userNameReplyTo);
         Tweet userSpecificTweet = tweetRepository.getTweetByUserAndTweetContent(userJack, tweetContent);
         String tweetId = userSpecificTweet.getTweetId();
 
@@ -390,5 +390,53 @@ class TwitApiApplicationTests {
                 .withBasicAuth("user", "password")
                 .exchange(uri, HttpMethod.DELETE, HttpEntity.EMPTY, Reply.class);
         assertThat(exchange.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+    }
+
+    @Test
+    @Order(13)
+    void pinOneTweetShouldReturn200() {
+        String userName = "cindy";
+        String tweetContent = "I am Cindy. This is my 1st tweet";
+        boolean pinned = true;
+
+        User userCindy = userRepository.findUserByUserName(userName);
+        Tweet userSpecificTweet = tweetRepository.getTweetByUserAndTweetContent(userCindy, tweetContent);
+        String tweetId = userSpecificTweet.getTweetId();
+
+        String url = "http://localhost:%s/api/tweets/%s/status/%s".formatted(port, userName, tweetId);
+        URI uri = UriComponentsBuilder
+                .fromUri(URI.create(url))
+                .queryParam("pinned", pinned)
+                .build()
+                .toUri();
+
+        ResponseEntity<Reply> exchange = restTemplate
+                .withBasicAuth("user", "password")
+                .exchange(uri, HttpMethod.PUT, HttpEntity.EMPTY, Reply.class);
+        assertThat(exchange.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+    @Test
+    @Order(14)
+    void attemptToPinMoreThanOneTweetShouldReturn409() {
+        String userName = "cindy";
+        String tweetContent = "I am Cindy. This is my other tweet";
+        boolean pinned = true;
+
+        User userCindy = userRepository.findUserByUserName(userName);
+        Tweet userSpecificTweet = tweetRepository.getTweetByUserAndTweetContent(userCindy, tweetContent);
+        String tweetId = userSpecificTweet.getTweetId();
+
+        String url = "http://localhost:%s/api/tweets/%s/status/%s".formatted(port, userName, tweetId);
+        URI uri = UriComponentsBuilder
+                .fromUri(URI.create(url))
+                .queryParam("pinned", pinned)
+                .build()
+                .toUri();
+
+        ResponseEntity<Reply> exchange = restTemplate
+                .withBasicAuth("user", "password")
+                .exchange(uri, HttpMethod.PUT, HttpEntity.EMPTY, Reply.class);
+        assertThat(exchange.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
     }
 }

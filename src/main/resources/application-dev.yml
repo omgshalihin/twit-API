@@ -5,4 +5,3 @@ spring:
     mongodb:
       uri: mongodb+srv://${DB_USER}:${DB_PWD}@${DB_ENDPOINT}/${DB_NAME}
 
-

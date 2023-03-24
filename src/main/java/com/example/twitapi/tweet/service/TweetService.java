@@ -4,7 +4,9 @@ import com.example.twitapi.tweet.model.Tweet;
 import com.example.twitapi.tweet.repository.TweetRepository;
 import com.example.twitapi.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -47,7 +49,7 @@ public class TweetService {
         }
 
         if (pinned && pinExists != null) {
-            throw new IllegalArgumentException("a tweet has already been pinned");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "a tweet has already been pinned");
         }
 
         tweet.setPinned(pinned);

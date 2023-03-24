@@ -1,6 +1,7 @@
 package com.example.twitapi.tweet.controller;
 
 import com.example.twitapi.tweet.model.Tweet;
+import com.example.twitapi.tweet.repository.TweetRepository;
 import com.example.twitapi.tweet.service.TweetService;
 import com.example.twitapi.user.model.User;
 import com.example.twitapi.user.repository.UserRepository;
@@ -19,6 +20,8 @@ public class TweetController {
     private TweetService tweetService;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private TweetRepository tweetRepository;
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
