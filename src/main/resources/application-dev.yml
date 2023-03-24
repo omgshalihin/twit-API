@@ -1,6 +1,6 @@
 spring:
-#  config:
-#    import: env.properties
+  config:
+    import: env.properties
   data:
     mongodb:
       uri: mongodb+srv://${DB_USER}:${DB_PWD}@${DB_ENDPOINT}/${DB_NAME}

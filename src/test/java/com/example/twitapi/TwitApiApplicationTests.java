@@ -39,10 +39,8 @@ class TwitApiApplicationTests {
 
     @Value("${server.port}")
     private int port;
-
     @Autowired
     private TestRestTemplate restTemplate;
-
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -67,7 +65,9 @@ class TwitApiApplicationTests {
     @Test
     @Order(1)
     void shouldCreateUsersForPost() {
+
         String uri = "http://localhost:%s/api/users".formatted(port);
+
         User user1 = new User(
                 "cindy",
                 "cindy@mail.com"
@@ -80,7 +80,10 @@ class TwitApiApplicationTests {
                 "jack",
                 "jack@mail.com"
         );
-        ResponseEntity<User> exchangeUser1 = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(user1), User.class);
+
+        ResponseEntity<User> exchangeUser1 = restTemplate
+                .withBasicAuth("admin", "password")
+                .exchange(uri, HttpMethod.POST, new HttpEntity<>(user1), User.class);
         assertThat(exchangeUser1.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(Objects.requireNonNull(exchangeUser1.getBody()).getUserId()).isNotNull();
         assertThat(exchangeUser1.getBody().getUserName()).isNotNull();
@@ -88,7 +91,9 @@ class TwitApiApplicationTests {
         assertThat(exchangeUser1.getBody().getUserFollower()).isEmpty();
         assertThat(exchangeUser1.getBody().getUserFollowing()).isEmpty();
 
-        ResponseEntity<User> exchangeUser2 = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(user2), User.class);
+        ResponseEntity<User> exchangeUser2 = restTemplate
+                .withBasicAuth("admin", "password")
+                .exchange(uri, HttpMethod.POST, new HttpEntity<>(user2), User.class);
         assertThat(exchangeUser2.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(Objects.requireNonNull(exchangeUser2.getBody()).getUserId()).isNotNull();
         assertThat(exchangeUser2.getBody().getUserName()).isNotNull();
@@ -96,7 +101,9 @@ class TwitApiApplicationTests {
         assertThat(exchangeUser2.getBody().getUserFollower()).isEmpty();
         assertThat(exchangeUser2.getBody().getUserFollowing()).isEmpty();
 
-        ResponseEntity<User> exchangeUser3 = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(user3), User.class);
+        ResponseEntity<User> exchangeUser3 = restTemplate
+                .withBasicAuth("admin", "password")
+                .exchange(uri, HttpMethod.POST, new HttpEntity<>(user3), User.class);
         assertThat(exchangeUser3.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(Objects.requireNonNull(exchangeUser3.getBody()).getUserId()).isNotNull();
         assertThat(exchangeUser3.getBody().getUserName()).isNotNull();
@@ -108,16 +115,23 @@ class TwitApiApplicationTests {
     @Test
     @Order(2)
     void peterShouldFollowCindy() {
+
         String user = "peter";
         String userToFollow = "cindy";
+
         String url = "http://localhost:%s/api/users/%s/follow-user".formatted(port, user);
         URI uri = UriComponentsBuilder
                 .fromUri(URI.create(url))
                 .queryParam("username", userToFollow)
                 .build()
                 .toUri();
-        ResponseEntity<User> exchange = restTemplate.exchange(uri, HttpMethod.POST, HttpEntity.EMPTY, User.class);
+
+        ResponseEntity<User> exchange = restTemplate
+                .withBasicAuth("admin", "password")
+                .exchange(uri, HttpMethod.POST, HttpEntity.EMPTY, User.class);
         User peter = exchange.getBody();
+
+        assert peter != null;
         assertThat(peter.getUserFollowing()).hasSize(1);
     }
 
@@ -132,7 +146,9 @@ class TwitApiApplicationTests {
                 .queryParam("username", userToFollow)
                 .build()
                 .toUri();
-        ResponseEntity<User> exchange = restTemplate.exchange(uri, HttpMethod.POST, HttpEntity.EMPTY, User.class);
+        ResponseEntity<User> exchange = restTemplate
+                .withBasicAuth("admin", "password")
+                .exchange(uri, HttpMethod.POST, HttpEntity.EMPTY, User.class);
         User jack = exchange.getBody();
         assertThat(jack.getUserFollowing()).hasSize(1);
     }
@@ -150,7 +166,9 @@ class TwitApiApplicationTests {
     void createUserWithExistingUsernameResultsIn409() {
         String uri = "http://localhost:%s/api/users".formatted(port);
         User jack = new User("jack", "jack@mail.com");
-        ResponseEntity<User> exchange = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(jack), User.class);
+        ResponseEntity<User> exchange = restTemplate
+                .withBasicAuth("admin", "password")
+                .exchange(uri, HttpMethod.POST, new HttpEntity<>(jack), User.class);
         assertThat(exchange.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
     }
 
@@ -173,7 +191,9 @@ class TwitApiApplicationTests {
                 .queryParam("username", userToFollow)
                 .build()
                 .toUri();
-        ResponseEntity<User> exchange = restTemplate.exchange(uri, HttpMethod.POST, HttpEntity.EMPTY, User.class);
+        ResponseEntity<User> exchange = restTemplate
+                .withBasicAuth("admin", "password")
+                .exchange(uri, HttpMethod.POST, HttpEntity.EMPTY, User.class);
         assertThat(exchange.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
     }
 
@@ -188,7 +208,9 @@ class TwitApiApplicationTests {
                 .queryParam("username", userToUnfollow)
                 .build()
                 .toUri();
-        ResponseEntity<User> exchange = restTemplate.exchange(uri, HttpMethod.POST, HttpEntity.EMPTY, User.class);
+        ResponseEntity<User> exchange = restTemplate
+                .withBasicAuth("admin", "password")
+                .exchange(uri, HttpMethod.POST, HttpEntity.EMPTY, User.class);
         assertThat(exchange.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
@@ -216,7 +238,9 @@ class TwitApiApplicationTests {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Accept", "application/json, application/*+json");
 
-        ResponseEntity<String> exchange = new TestRestTemplate().exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+        ResponseEntity<String> exchange = new TestRestTemplate()
+                .withBasicAuth("admin", "password")
+                .exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), String.class);
 
         JsonNode userFollowers = mapper.readTree(exchange.getBody());
         assertThat(userFollowers.size()).isEqualTo(2);
@@ -233,7 +257,9 @@ class TwitApiApplicationTests {
                 .build()
                 .toUri();
         Tweet tweetContent = new Tweet("I am Cindy. This is my 1st tweet");
-        ResponseEntity<Tweet> exchange = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(tweetContent), Tweet.class);
+        ResponseEntity<Tweet> exchange = restTemplate
+                .withBasicAuth("admin", "password")
+                .exchange(uri, HttpMethod.POST, new HttpEntity<>(tweetContent), Tweet.class);
         assertThat(exchange.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(exchange.getBody().getTweetId()).isNotNull();
         assertThat(exchange.getBody().getTweetContent()).isEqualTo("I am Cindy. This is my 1st tweet");
@@ -252,7 +278,9 @@ class TwitApiApplicationTests {
                 .build()
                 .toUri();
         Tweet tweetContent = new Tweet("I am Cindy. This is my other tweet");
-        ResponseEntity<Tweet> exchange = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(tweetContent), Tweet.class);
+        ResponseEntity<Tweet> exchange = restTemplate
+                .withBasicAuth("admin", "password")
+                .exchange(uri, HttpMethod.POST, new HttpEntity<>(tweetContent), Tweet.class);
         assertThat(exchange.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(exchange.getBody().getTweetId()).isNotNull();
         assertThat(exchange.getBody().getTweetContent()).isEqualTo("I am Cindy. This is my other tweet");
@@ -271,7 +299,9 @@ class TwitApiApplicationTests {
                 .build()
                 .toUri();
         Tweet tweetContent = new Tweet("I am Jack. This is my 1st tweet");
-        ResponseEntity<Tweet> exchange = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(tweetContent), Tweet.class);
+        ResponseEntity<Tweet> exchange = restTemplate
+                .withBasicAuth("admin", "password")
+                .exchange(uri, HttpMethod.POST, new HttpEntity<>(tweetContent), Tweet.class);
         assertThat(exchange.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(exchange.getBody().getTweetId()).isNotNull();
         assertThat(exchange.getBody().getTweetContent()).isEqualTo("I am Jack. This is my 1st tweet");
@@ -289,7 +319,9 @@ class TwitApiApplicationTests {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Accept", "application/json, application/*+json");
 
-        ResponseEntity<String> exchange = restTemplate.exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+        ResponseEntity<String> exchange = restTemplate
+                .withBasicAuth("admin", "password")
+                .exchange(uri, HttpMethod.GET, new HttpEntity<>(headers), String.class);
 
         JsonNode userTweets = mapper.readTree(exchange.getBody());
         assertThat(userTweets.size()).isEqualTo(2);
@@ -316,7 +348,9 @@ class TwitApiApplicationTests {
                 .toUri();
 
         Reply replyContent = new Reply("I'm Jack. This is my reply to Cindy's first tweet!");
-        ResponseEntity<Reply> exchange = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(replyContent), Reply.class);
+        ResponseEntity<Reply> exchange = restTemplate
+                .withBasicAuth("admin", "password")
+                .exchange(uri, HttpMethod.POST, new HttpEntity<>(replyContent), Reply.class);
         assertThat(exchange.getStatusCode()).isEqualTo(HttpStatus.CREATED);
     }
 
@@ -341,7 +375,20 @@ class TwitApiApplicationTests {
                 .toUri();
 
         Reply replyContent = new Reply("I'm Cindy. This is my reply to Jack's first tweet!");
-        ResponseEntity<Reply> exchange = restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(replyContent), Reply.class);
+        ResponseEntity<Reply> exchange = restTemplate
+                .withBasicAuth("admin", "password")
+                .exchange(uri, HttpMethod.POST, new HttpEntity<>(replyContent), Reply.class);
         assertThat(exchange.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    @Order(12)
+    void userRoleAuthShouldNotBeAbleToDeleteExistingUser() {
+        String userName = "peter";
+        String uri = "http://localhost:%s/api/users/%s".formatted(port, userName);
+        ResponseEntity<Reply> exchange = restTemplate
+                .withBasicAuth("user", "password")
+                .exchange(uri, HttpMethod.DELETE, HttpEntity.EMPTY, Reply.class);
+        assertThat(exchange.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
     }
 }

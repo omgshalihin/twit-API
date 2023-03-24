@@ -5,6 +5,7 @@ import com.example.twitapi.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getAllUsers());
@@ -34,7 +36,7 @@ public class UserController {
     ResponseEntity<List<String>> getUserFollowers(@PathVariable String userName) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getUserFollowers(userName));
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     ResponseEntity<User> saveUser(@RequestBody User newUser) {
         if (userService.getUser(newUser.getUserName()) != null) {
@@ -66,6 +68,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("{userName}")
     public ResponseEntity<Void> deleteUser(@PathVariable String userName) {
         userService.deleteUser(userName);
