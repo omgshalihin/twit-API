@@ -24,6 +24,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -176,8 +177,8 @@ class TwitApiApplicationTests {
     @Order(5)
     void shouldNotAllowUserToBeCreatedTwice() {
         User jack = new User("jack", "jack@mail.com");
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> userService.saveUser(jack));
-        assertEquals(exception.getMessage(), "User already exists");
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> userService.saveUser(jack));
+        assertEquals(exception.getReason(), "User already exists");
     }
 
     @Test
@@ -217,15 +218,15 @@ class TwitApiApplicationTests {
     @Test
     @Order(8)
     void shouldNotAllowUserToFollowSameUserTwice() {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> userService.followUser("jack", "cindy"));
-        assertEquals(exception.getMessage(), "User is already a follower");
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> userService.followUser("jack", "cindy"));
+        assertEquals(exception.getReason(), "User is already a follower");
     }
 
     @Test
     @Order(8)
     void shouldNotAllowUserToUnfollowIfNotFollowingAtFirst() {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> userService.unfollowUser("cindy", "peter"));
-        assertEquals(exception.getMessage(), "User is not a follower");
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> userService.unfollowUser("cindy", "peter"));
+        assertEquals(exception.getReason(), "User is not a follower");
     }
 
     @Test
