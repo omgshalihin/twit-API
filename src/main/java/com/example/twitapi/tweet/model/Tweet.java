@@ -19,6 +19,7 @@ public class Tweet {
     @Id
     private String tweetId;
     private String tweetContent;
+    private boolean pinned;
     private List<Reply> tweetReplies = new ArrayList<>();
     private User user;
 

@@ -36,4 +36,23 @@ public class TweetService {
     public void deleteTweet(String tweetId) {
         tweetRepository.deleteById(tweetId);
     }
+
+    public Tweet pinTweet(User user, String tweetId, boolean pinned) {
+
+        Tweet tweet = tweetRepository.getTweetByTweetId(tweetId);
+        Tweet pinExists = tweetRepository.getTweetByUserAndPinnedIsTrue(user);
+
+        if (tweet == null) {
+            throw new IllegalArgumentException("tweet not found");
+        }
+
+        if (pinned && pinExists != null) {
+            throw new IllegalArgumentException("a tweet has already been pinned");
+        }
+
+        tweet.setPinned(pinned);
+        tweetRepository.save(tweet);
+
+        return tweet;
+    }
 }

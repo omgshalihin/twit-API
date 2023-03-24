@@ -28,9 +28,9 @@ important note:
   - Create new user `POST`
   - Delete user `DELETE`
 
-#### Method 1: use the [Host Domains](https://github.com/omgshalihin/twit-API#hosting) provided and [API Guides](https://github.com/omgshalihin/twit-API#users-api-guide) to communicate with the service. 
+#### Method 1: use the [Host Domains](https://github.com/omgshalihin/twit-API#hosting) provided and [API Guides](https://github.com/omgshalihin/twit-API#users-api-guide) to test the API using a tool like Postman
 
-For example,
+For example, to get a list of users:
 -  use https://twit-api-production.up.railway.app/api/users instead of http://localhost:8080/api/users
 
 #### Method 2: clone and run service locally
@@ -50,7 +50,7 @@ DB_ENDPOINT=<mongoDB_endpoint>
 DB_NAME=<mongoDB_name>
 ```
 - run `TwitApiApplication` to host it locally at http://localhost:8080/api/users, http://localhost:8080/api/tweets, http://localhost:8080/api/replies
-- use the respective `API Guides` ([Users API Guide](https://github.com/omgshalihin/twit-API#users-api-guide), [Tweets API Guide](https://github.com/omgshalihin/twit-API#tweets-api-guide), [Replies API Guide](https://github.com/omgshalihin/twit-API#replies-api-guide)) to communicate with the REST endpoints on a client (e.g. postman)
+- use the respective `API Guides` ([Users API Guide](https://github.com/omgshalihin/twit-API#users-api-guide), [Tweets API Guide](https://github.com/omgshalihin/twit-API#tweets-api-guide), [Replies API Guide](https://github.com/omgshalihin/twit-API#replies-api-guide)) and test the API using a tool like Postman
 
 ## Users API Guide
 
@@ -168,6 +168,10 @@ DB_NAME=<mongoDB_name>
 ### delete a tweet `DELETE`
   ```
   http://localhost:8080/api/tweets/<tweetId>
+  ```
+### pin a single tweet `PUT`
+  ```
+  http://localhost:8080/api/tweets/<userName>/status/<tweetId>?pinned=<true or false>
   ```
 
 ### retrieve all tweets `GET`

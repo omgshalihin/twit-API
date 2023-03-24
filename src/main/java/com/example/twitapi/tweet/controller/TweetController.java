@@ -53,4 +53,13 @@ public class TweetController {
         tweetService.deleteTweet(tweetId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+    @PutMapping("/{userName}/status/{tweetId}")
+    ResponseEntity<Tweet> pinTweet(
+            @PathVariable String userName,
+            @PathVariable String tweetId,
+            @RequestParam(name = "pinned" ) boolean pinned) {
+        User user = userRepository.findUserByUserName(userName);
+        return ResponseEntity.status(HttpStatus.OK).body(tweetService.pinTweet(user, tweetId, pinned));
+    }
 }
