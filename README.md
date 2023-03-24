@@ -9,6 +9,25 @@ The following domains are hosted on [Railway.app](https://railway.app/)
 - https://twit-api-production.up.railway.app/api/replies
 
 ### To Get Started (two methods)
+#### Authorization Feature in Postman Client
+inside postman client under authoriszation tab, fill in the following:
+- Type: `Basic Auth`
+- Username: `admin` or `user`
+- Password: `password`
+
+OR add the following as a header
+- header key: `Authorization`
+- header value for `ADMIN role`: `Basic YWRtaW46cGFzc3dvcmQ=`
+- header value for `USER role`: `Basic dXNlciBwYXNzd29yZA==`
+
+important note:
+- `ADMIN Role` is able to communicate with all API methods
+- `USER Role` is able to communicate with all API methods ****except**** for:
+  - Get all users `GET`
+  - Get all tweets `GET`
+  - Create new user `POST`
+  - Delete user `DELETE`
+
 #### Method 1: use the [Host Domains](https://github.com/omgshalihin/twit-API#hosting) provided and [API Guides](https://github.com/omgshalihin/twit-API#users-api-guide) to communicate with the service. 
 
 For example,
