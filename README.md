@@ -1,7 +1,17 @@
 # TWIT-API
 ### Background
-An API/service that is built with Java to mimic the behavior of Twitter. This API is built ontop of [Spring](https://spring.io/) framework and utilises [MongoDB Atlas](https://www.mongodb.com/atlas/database) as a cloud database provider.
-
+An API/service that is built with Java to `mimic the behavior of Twitter`. This API is built ontop of [Spring](https://spring.io/) framework and utilises [MongoDB Atlas](https://www.mongodb.com/atlas/database) as a cloud database provider.
+#### Spring Frameworks
+- Spring Web
+- Spring Security
+- Spring Data MongoDB
+- Lombok
+#### Special Considerations
+- Users in the database should be unique
+- User's follower and following lists should be filled with unique users
+- User A should not be allowed to unfollow user B if user A is not in user B's list of followers
+- User A should not be allowed to reply to user B's tweets if user A is not in user B's list of followers
+- User should not be allowed to pin more than one tweet
 ### Hosting/Deployment
 The following domains are hosted on [Railway.app](https://railway.app/)
 - https://twit-api-production.up.railway.app/api/users
@@ -49,6 +59,7 @@ DB_PWD=<mongoDB_password>
 DB_ENDPOINT=<mongoDB_endpoint>
 DB_NAME=<mongoDB_name>
 ```
+- inside `application.yml`, change spring-profiles-active from prod to `dev`
 - run `TwitApiApplication` to host it locally at http://localhost:8080/api/users, http://localhost:8080/api/tweets, http://localhost:8080/api/replies
 - use the respective `API Guides` ([Users API Guide](https://github.com/omgshalihin/twit-API#users-api-guide), [Tweets API Guide](https://github.com/omgshalihin/twit-API#tweets-api-guide), [Replies API Guide](https://github.com/omgshalihin/twit-API#replies-api-guide)) and test the API using a tool like Postman
 
