@@ -1,10 +1,9 @@
 package com.example.twitapi.tweet.controller;
 
 import com.example.twitapi.tweet.model.Tweet;
-import com.example.twitapi.tweet.repository.TweetRepository;
 import com.example.twitapi.tweet.service.TweetService;
 import com.example.twitapi.user.model.User;
-import com.example.twitapi.user.repository.UserRepository;
+import com.example.twitapi.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +15,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/tweets")
 public class TweetController {
+
     @Autowired
     private TweetService tweetService;
+
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private TweetRepository tweetRepository;
+    private UserService userService;
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
@@ -31,7 +30,7 @@ public class TweetController {
 
     @GetMapping("/{userName}")
     ResponseEntity<List<Tweet>> getUserTweets(@PathVariable String userName) {
-        User user = userRepository.findUserByUserName(userName);
+        User user = userService.userNotFoundError(userName);
         return ResponseEntity.status(HttpStatus.OK).body(tweetService.getUserTweets(user));
     }
 
@@ -39,7 +38,7 @@ public class TweetController {
     ResponseEntity<Tweet> getSpecificTweet(
             @PathVariable String userName,
             @PathVariable String tweetId) {
-        User user = userRepository.findUserByUserName(userName);
+        User user = userService.userNotFoundError(userName);
         return ResponseEntity.status(HttpStatus.OK).body(tweetService.getSpecificTweet(user, tweetId));
     }
 
@@ -47,7 +46,7 @@ public class TweetController {
     ResponseEntity<Tweet> composeTweet(
             @RequestBody Tweet tweet,
             @RequestParam(name = "username") String userName) {
-        User user = userRepository.findUserByUserName(userName);
+        User user = userService.userNotFoundError(userName);
         return ResponseEntity.status(HttpStatus.CREATED).body(tweetService.composeTweet(tweet.getTweetContent(), user));
     }
 
@@ -62,7 +61,7 @@ public class TweetController {
             @PathVariable String userName,
             @PathVariable String tweetId,
             @RequestParam(name = "pinned" ) boolean pinned) {
-        User user = userRepository.findUserByUserName(userName);
+        User user = userService.userNotFoundError(userName);
         return ResponseEntity.status(HttpStatus.OK).body(tweetService.pinTweet(user, tweetId, pinned));
     }
 }

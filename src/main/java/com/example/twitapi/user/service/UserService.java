@@ -15,10 +15,11 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    private void userNotFoundError(String userName) {
+    public User userNotFoundError(String userName) {
         if (userRepository.findUserByUserName(userName) == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not a valid user");
         }
+        return userRepository.findUserByUserName(userName);
     }
 
     public List<User> getAllUsers() {

@@ -12,8 +12,15 @@ import java.util.List;
 
 @Service
 public class TweetService {
+
     @Autowired
     private TweetRepository tweetRepository;
+
+    private void tweetNotFoundError(String tweetId) {
+        if (tweetRepository.getTweetByTweetId(tweetId) == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tweet not found");
+        }
+    }
 
     public List<Tweet> getAllTweets() {
         return tweetRepository.findAll();
@@ -24,6 +31,7 @@ public class TweetService {
     }
 
     public Tweet getSpecificTweet(User user, String tweetId) {
+        tweetNotFoundError(tweetId);
         return tweetRepository.getTweetByUserAndTweetId(user, tweetId);
     }
 
@@ -36,17 +44,16 @@ public class TweetService {
     }
 
     public void deleteTweet(String tweetId) {
+        tweetNotFoundError(tweetId);
         tweetRepository.deleteById(tweetId);
     }
 
     public Tweet pinTweet(User user, String tweetId, boolean pinned) {
 
+        tweetNotFoundError(tweetId);
+
         Tweet tweet = tweetRepository.getTweetByTweetId(tweetId);
         Tweet pinExists = tweetRepository.getTweetByUserAndPinnedIsTrue(user);
-
-        if (tweet == null) {
-            throw new IllegalArgumentException("tweet not found");
-        }
 
         if (pinned && pinExists != null) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "a tweet has already been pinned");
@@ -57,4 +64,5 @@ public class TweetService {
 
         return tweet;
     }
+
 }
