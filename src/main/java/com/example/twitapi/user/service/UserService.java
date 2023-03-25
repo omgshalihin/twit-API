@@ -1,5 +1,7 @@
 package com.example.twitapi.user.service;
 
+import com.example.twitapi.tweet.model.Tweet;
+import com.example.twitapi.tweet.repository.TweetRepository;
 import com.example.twitapi.user.model.User;
 import com.example.twitapi.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,8 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private TweetRepository tweetRepository;
 
     public User throwErrorIfUserNotFound(String userName) {
         if (userRepository.findUserByUserName(userName) == null) {
@@ -45,6 +49,19 @@ public class UserService {
         userToFollow.getUserFollower().add(user.getUserName());
         userRepository.save(user);
         userRepository.save(userToFollow);
+
+        List<Tweet> userTweet = tweetRepository.getTweetByUserUserName(user.getUserName());
+        List<Tweet> userToFollowTweet = tweetRepository.getTweetByUserUserName(userToFollow.getUserName());
+
+        userTweet.forEach(tweet -> {
+            tweet.getUser().getUserFollowing().add(userToFollow.getUserName());
+            tweetRepository.save(tweet);
+        });
+        userToFollowTweet.forEach(tweet -> {
+            tweet.getUser().getUserFollower().add(user.getUserName());
+            tweetRepository.save(tweet);
+        });
+
         return user;
     }
 
@@ -60,6 +77,19 @@ public class UserService {
         userToUnfollow.getUserFollower().remove(user.getUserName());
         userRepository.save(user);
         userRepository.save(userToUnfollow);
+
+        List<Tweet> userTweet = tweetRepository.getTweetByUserUserName(user.getUserName());
+        List<Tweet> userToUnfollowTweet = tweetRepository.getTweetByUserUserName(userToUnfollow.getUserName());
+
+        userTweet.forEach(tweet -> {
+            tweet.getUser().getUserFollowing().remove(userToUnfollow.getUserName());
+            tweetRepository.save(tweet);
+        });
+        userToUnfollowTweet.forEach(tweet -> {
+            tweet.getUser().getUserFollower().remove(user.getUserName());
+            tweetRepository.save(tweet);
+        });
+
         return user;
     }
 

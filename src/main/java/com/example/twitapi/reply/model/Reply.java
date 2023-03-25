@@ -1,6 +1,6 @@
 package com.example.twitapi.reply.model;
 
-import com.example.twitapi.user.model.User;
+import com.example.twitapi.user.model.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,8 +15,8 @@ public class Reply {
     @Id
     private String replyId;
     private String replyContent;
-    private User user;
-    private User userReplyTo;
+    private UserDTO user;
+    private UserDTO userReplyTo;
 
     public Reply(String replyContent) {
         this.replyContent = replyContent;

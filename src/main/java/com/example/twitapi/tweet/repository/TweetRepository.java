@@ -18,4 +18,6 @@ public interface TweetRepository extends MongoRepository<Tweet, String> {
     Tweet getTweetByUserAndTweetContent(User user, String tweetContent);
 
     Tweet getTweetByUserAndPinnedIsTrue(User user);
+
+    List<Tweet> getTweetByUserUserName(String userName);
 }

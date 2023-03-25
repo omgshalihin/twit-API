@@ -5,7 +5,6 @@ import com.example.twitapi.reply.service.ReplyService;
 import com.example.twitapi.tweet.model.Tweet;
 import com.example.twitapi.tweet.service.TweetService;
 import com.example.twitapi.user.model.User;
-import com.example.twitapi.user.repository.UserRepository;
 import com.example.twitapi.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,9 +19,6 @@ public class ReplyController {
 
     @Autowired
     private ReplyService replyService;
-    @Autowired
-    private UserRepository userRepository;
-
     @Autowired
     private UserService userService;
     @Autowired
@@ -40,19 +36,22 @@ public class ReplyController {
             @RequestParam(name = "username") String userName,
             @RequestParam(name = "to") String userNameReplyTo,
             @RequestParam(name = "tweetId") String tweetId) {
-        if (!userRepository.findUserByUserName(userNameReplyTo).getUserFollower().contains(userName)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
         User user = userService.throwErrorIfUserNotFound(userName);
         User userReplyTo = userService.throwErrorIfUserNotFound(userNameReplyTo);
-        return ResponseEntity.status(HttpStatus.CREATED).body(replyService.replyTweet(reply.getReplyContent(), user, userReplyTo, tweetId));
+        Tweet tweet = tweetService.throwErrorIfTweetNotFound(tweetId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(replyService.replyTweet(
+                reply.getReplyContent(),
+                user,
+                userReplyTo,
+                tweet.getTweetId()));
     }
 
     @DeleteMapping("/delete")
     ResponseEntity<Void> deleteTweetReply(
             @RequestParam(name = "tweetId") String tweetId,
             @RequestParam(name = "replyId") String replyId) {
-        replyService.deleteTweetReply(tweetId, replyId);
+        Tweet tweet = tweetService.throwErrorIfTweetNotFound(tweetId);
+        replyService.deleteTweetReply(tweet.getTweetId(), replyId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

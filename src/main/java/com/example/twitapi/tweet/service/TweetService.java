@@ -16,10 +16,11 @@ public class TweetService {
     @Autowired
     private TweetRepository tweetRepository;
 
-    public void tweetNotFoundError(String tweetId) {
+    public Tweet throwErrorIfTweetNotFound(String tweetId) {
         if (tweetRepository.getTweetByTweetId(tweetId) == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tweet not found");
         }
+        return tweetRepository.getTweetByTweetId(tweetId);
     }
 
     public List<Tweet> getAllTweets() {
@@ -31,7 +32,7 @@ public class TweetService {
     }
 
     public Tweet getSpecificTweet(User user, String tweetId) {
-        tweetNotFoundError(tweetId);
+        throwErrorIfTweetNotFound(tweetId);
         return tweetRepository.getTweetByUserAndTweetId(user, tweetId);
     }
 
@@ -44,15 +45,15 @@ public class TweetService {
     }
 
     public void deleteTweet(String tweetId) {
-        tweetNotFoundError(tweetId);
+        throwErrorIfTweetNotFound(tweetId);
         tweetRepository.deleteById(tweetId);
     }
 
     public Tweet pinTweet(User user, String tweetId, boolean pinned) {
 
-        tweetNotFoundError(tweetId);
+        throwErrorIfTweetNotFound(tweetId);
 
-        Tweet tweet = tweetRepository.getTweetByTweetId(tweetId);
+        Tweet tweet = throwErrorIfTweetNotFound(tweetId);
         Tweet pinExists = tweetRepository.getTweetByUserAndPinnedIsTrue(user);
 
         if (pinned && pinExists != null) {
