@@ -30,7 +30,7 @@ public class TweetController {
 
     @GetMapping("/{userName}")
     ResponseEntity<List<Tweet>> getUserTweets(@PathVariable String userName) {
-        User user = userService.userNotFoundError(userName);
+        User user = userService.throwErrorIfUserNotFound(userName);
         return ResponseEntity.status(HttpStatus.OK).body(tweetService.getUserTweets(user));
     }
 
@@ -38,7 +38,7 @@ public class TweetController {
     ResponseEntity<Tweet> getSpecificTweet(
             @PathVariable String userName,
             @PathVariable String tweetId) {
-        User user = userService.userNotFoundError(userName);
+        User user = userService.throwErrorIfUserNotFound(userName);
         return ResponseEntity.status(HttpStatus.OK).body(tweetService.getSpecificTweet(user, tweetId));
     }
 
@@ -46,7 +46,7 @@ public class TweetController {
     ResponseEntity<Tweet> composeTweet(
             @RequestBody Tweet tweet,
             @RequestParam(name = "username") String userName) {
-        User user = userService.userNotFoundError(userName);
+        User user = userService.throwErrorIfUserNotFound(userName);
         return ResponseEntity.status(HttpStatus.CREATED).body(tweetService.composeTweet(tweet.getTweetContent(), user));
     }
 
@@ -61,7 +61,7 @@ public class TweetController {
             @PathVariable String userName,
             @PathVariable String tweetId,
             @RequestParam(name = "pinned" ) boolean pinned) {
-        User user = userService.userNotFoundError(userName);
+        User user = userService.throwErrorIfUserNotFound(userName);
         return ResponseEntity.status(HttpStatus.OK).body(tweetService.pinTweet(user, tweetId, pinned));
     }
 }

@@ -15,7 +15,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User userNotFoundError(String userName) {
+    public User throwErrorIfUserNotFound(String userName) {
         if (userRepository.findUserByUserName(userName) == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not a valid user");
         }
@@ -34,8 +34,8 @@ public class UserService {
     }
 
     public User followUser(String userName, String userNameToFollow) {
-        User user = userRepository.findUserByUserName(userName);
-        User userToFollow = userRepository.findUserByUserName(userNameToFollow);
+        User user = throwErrorIfUserNotFound(userName);
+        User userToFollow = throwErrorIfUserNotFound(userNameToFollow);
 
         if (userToFollow.getUserFollower().contains(user.getUserName())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "User is already a follower");
@@ -49,8 +49,8 @@ public class UserService {
     }
 
     public User unfollowUser(String userName, String userNameToUnfollow) {
-        User user = userRepository.findUserByUserName(userName);
-        User userToUnfollow = userRepository.findUserByUserName(userNameToUnfollow);
+        User user = throwErrorIfUserNotFound(userName);
+        User userToUnfollow = throwErrorIfUserNotFound(userNameToUnfollow);
 
         if (!userToUnfollow.getUserFollower().contains(user.getUserName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User is not a follower");
@@ -64,30 +64,32 @@ public class UserService {
     }
 
     public List<String> getUserFollowing(String userName) {
-        userNotFoundError(userName);
-        return userRepository.findUserByUserName(userName).getUserFollowing();
+        return throwErrorIfUserNotFound(userName).getUserFollowing();
     }
 
     public List<String> getUserFollowers(String userName) {
-        userNotFoundError(userName);
-        return userRepository.findUserByUserName(userName).getUserFollower();
+        return throwErrorIfUserNotFound(userName).getUserFollower();
     }
 
     public User getUser(String userName) {
-        userNotFoundError(userName);
-        return userRepository.findUserByUserName(userName);
+        return throwErrorIfUserNotFound(userName);
     }
 
     public void deleteUser(String userName) {
-        userNotFoundError(userName);
+        User userToBeDeleted = throwErrorIfUserNotFound(userName);
+        List<String> listOfUserFollowings = userToBeDeleted.getUserFollowing();
+        List<String> listOfUserFollowers = userToBeDeleted.getUserFollower();
 
-        User userToBeDeleted = userRepository.findUserByUserName(userName);
-        List<String> listOfFollowingUsers = userToBeDeleted.getUserFollowing();
+        listOfUserFollowings.forEach(userThatFollowsUserToBeDeleted -> {
+            User user = throwErrorIfUserNotFound(userThatFollowsUserToBeDeleted);
+            user.getUserFollower().remove(userName);
+            userRepository.save(user);
+        });
 
-        listOfFollowingUsers.forEach(followingUserUserName -> {
-            User followingUser = userRepository.findUserByUserName(followingUserUserName);
-            followingUser.getUserFollower().remove(userName);
-            userRepository.save(followingUser);
+        listOfUserFollowers.forEach(followerOfUserToBeDeleted -> {
+            User user = throwErrorIfUserNotFound(followerOfUserToBeDeleted);
+            user.getUserFollowing().remove(userName);
+            userRepository.save(user);
         });
 
         userRepository.deleteUserByUserName(userName);

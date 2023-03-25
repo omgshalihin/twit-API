@@ -16,7 +16,7 @@ public class TweetService {
     @Autowired
     private TweetRepository tweetRepository;
 
-    private void tweetNotFoundError(String tweetId) {
+    public void tweetNotFoundError(String tweetId) {
         if (tweetRepository.getTweetByTweetId(tweetId) == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Tweet not found");
         }
