@@ -163,11 +163,12 @@ DB_NAME=<mongoDB_name>
   - sample output
   ```
   {
-      "tweetId": "641c6ed742f8ee5a062848b6",
+      "tweetId": "642048e6e18dd46795019f7e",
       "tweetContent": "I'm Cindy. This is my 1st tweet!",
+      "pinned": false,
       "tweetReplies": [],
       "user": {
-          "userId": "641c598263a2a40208bb376c",
+          "userId": "642048a8e18dd46795019f7d",
           "userName": "cindy",
           "userEmail": "cindy@mail.com",
           "userFollowing": [],
@@ -215,41 +216,34 @@ DB_NAME=<mongoDB_name>
   - sample output
   ```
   {
-        "tweetId": "641c6ed742f8ee5a062848b6",
-        "tweetContent": "I'm Cindy. This is my 1st tweet!",
-        "tweetReplies": [
-            {
-                "replyId": "641c8744c5af2357dd7a8c63",
-                "replyContent": "I'm Jack. I am replying to Cindy's 1st tweet!",
-                "user": {
-                    "userId": "641c599463a2a40208bb376d",
-                    "userName": "jack",
-                    "userEmail": "jack@mail.com",
-                    "userFollowing": [
-                        "cindy"
-                    ],
-                    "userFollower": []
-                },
-                "userReplyTo": {
-                    "userId": "641c598263a2a40208bb376c",
-                    "userName": "cindy",
-                    "userEmail": "cindy@mail.com",
-                    "userFollowing": [],
-                    "userFollower": [
-                        "jack"
-                    ]
-                }
-            }
-        ],
-        "user": {
-            "userId": "641c598263a2a40208bb376c",
-            "userName": "cindy",
-            "userEmail": "cindy@mail.com",
-            "userFollowing": [],
-            "userFollower": [
-                "jack"
-            ]
-        }
+      "tweetId": "642048e6e18dd46795019f7e",
+      "tweetContent": "I'm Cindy. This is my 1st tweet!",
+      "pinned": false,
+      "tweetReplies": [
+          {
+              "replyId": "642049e5e18dd46795019f7f",
+              "replyContent": "I'm Jack. I am replying to Cindy's 1st tweet!",
+              "user": {
+                  "userId": "642048a0e18dd46795019f7c",
+                  "userName": "jack",
+                  "userEmail": "jack@mail.com"
+              },
+              "userReplyTo": {
+                  "userId": "642048a8e18dd46795019f7d",
+                  "userName": "cindy",
+                  "userEmail": "cindy@mail.com"
+              }
+          }
+      ],
+      "user": {
+          "userId": "642048a8e18dd46795019f7d",
+          "userName": "cindy",
+          "userEmail": "cindy@mail.com",
+          "userFollowing": [],
+          "userFollower": [
+              "jack"
+          ]
+      }
   }
   ```
 
