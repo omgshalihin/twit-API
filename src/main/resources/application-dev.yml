@@ -8,3 +8,5 @@ spring:
 jwt:
   secret: ${JWT_256_BIT_SECRET}
 
+
+
