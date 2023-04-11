@@ -5,6 +5,4 @@ server:
 
 spring:
   profiles:
-    active: dev
-
-
+    active: prod

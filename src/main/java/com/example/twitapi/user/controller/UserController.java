@@ -13,20 +13,19 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
+
     @Autowired
     private UserService userService;
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getAllUsers());
     }
-
     @GetMapping("/{userName}")
     ResponseEntity<User> getUser(@PathVariable String userName) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getUser(userName));
     }
-
     @GetMapping("/{userName}/following")
     ResponseEntity<List<String>> getUserFollowing(@PathVariable String userName) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getUserFollowing(userName));
