@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/replies")
+@CrossOrigin
 public class ReplyController {
 
     @Autowired

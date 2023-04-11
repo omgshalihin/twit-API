@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/tweets")
+@CrossOrigin
 public class TweetController {
 
     @Autowired
