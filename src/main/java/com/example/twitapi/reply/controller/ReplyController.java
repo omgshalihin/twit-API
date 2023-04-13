@@ -26,10 +26,14 @@ public class ReplyController {
     private TweetService tweetService;
 
     @GetMapping("/{userName}")
-    ResponseEntity<List<Reply>> getUserReplies(@PathVariable String userName) {
+    ResponseEntity<List<Reply>> getUserReplies(@PathVariable String userName, @RequestParam("incoming") Boolean incoming) {
         User user = userService.throwErrorIfUserNotFound(userName);
+        if (incoming) {
+            return ResponseEntity.status(HttpStatus.OK).body(replyService.getUserTweetReplies(user));
+        }
         return ResponseEntity.status(HttpStatus.OK).body(replyService.getUserReplies(user));
     }
+
 
     @PostMapping("/tweet")
     ResponseEntity<Tweet> replyTweet(

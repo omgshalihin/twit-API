@@ -25,7 +25,12 @@ public class ReplyService {
     private UserRepository userRepository;
 
     public List<Reply> getUserReplies(User user) {
-        return replyRepository.findRepliesByUser(user);
+        UserDTO userDTO = new UserDTO(user.getUserId(), user.getUserName(), user.getUserEmail());
+        return replyRepository.findRepliesByUser(userDTO);
+    }
+    public List<Reply> getUserTweetReplies(User user) {
+        UserDTO userDTO = new UserDTO(user.getUserId(), user.getUserName(), user.getUserEmail());
+        return replyRepository.findRepliesByUserReplyTo(userDTO);
     }
 
     public Tweet replyTweet(String replyContent, User user, User userReplyTo, String tweetId) {
