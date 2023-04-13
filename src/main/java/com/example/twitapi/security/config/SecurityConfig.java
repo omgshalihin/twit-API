@@ -37,7 +37,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.cors().and().csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/users/welcome","/users/new","/authenticate").permitAll()
+                .requestMatchers("/users/welcome","/users/new","/authenticate","/authenticate/validate").permitAll()
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/**").authenticated()
