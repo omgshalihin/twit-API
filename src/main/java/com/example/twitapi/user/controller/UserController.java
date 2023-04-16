@@ -36,8 +36,8 @@ public class UserController {
     ResponseEntity<List<String>> getUserFollowers(@PathVariable String userName) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getUserFollowers(userName));
     }
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping
+
+    @PostMapping("/new")
     ResponseEntity<User> saveUser(@RequestBody User newUser) {
         User savedUser = userService.saveUser(newUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
